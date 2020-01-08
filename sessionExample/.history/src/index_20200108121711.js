@@ -19,9 +19,7 @@ class Board extends React.Component {
       player: "player 1",
       clickCount: 0,
       player1:"",
-      player2:"",
-      namesEntered:false,
-      winnername: []
+      player2:""
     }
     this.state = this.initialstate
   }
@@ -30,19 +28,8 @@ class Board extends React.Component {
   }
 
   resetGame(){
-    this.setState({ 
-      squares: Array(9).fill(null),
-      isXNext: true,
-      player: "player 1",
-      clickCount: 0,
-    });
-  }
-
-  undoMove(){
-    this.setState(prevState =>{
-      return{
-      clickCount: prevState.clickCount
-    }})
+    this.setState(this.initialstate);
+    console.log(this.initialstate)
   }
 
   handleClick(i){
@@ -66,31 +53,16 @@ class Board extends React.Component {
     this.setState({
         [name]: value
     });
-  
-}
-
-start = (e) => {
-  
-  if(this.state.player1 !=='' && this.state.player2!==""){
-    this.setState({
-      namesEntered: true
-    })
-  }
 }
   
-
-
   render() {
 
-    console.log("clickCount", this.state)
+    console.log("clickCount", this.state.clickCount)
     const winner = calculateWinner(this.state.squares)
 
-    console.log("namesentered", this.state.namesEntered)
     var status; 
     if(winner){
-      status = 'winner'+ this.state.player;
-      this.state.winnername.push(this.state.player)
-      console.log("winnername",this.state.winnername)
+      status = 'winner'+ this.state.player
     }
     else {
       if(this.state.clickCount >= 9){
@@ -100,10 +72,10 @@ start = (e) => {
 
     else{
       if(!this.state.isXNext){
-        this.state.player = this.state.player2
+        this.state.player = "player 2"
       }
       else{
-        this.state.player = this.state.player1
+        this.state.player = "player 1"
       }
       status = 'Next player:'+ this.state.player;
     }
@@ -112,39 +84,29 @@ start = (e) => {
     const{player1, player2} = this.state
     return (
       <div>
-       <label>Player 1 name</label>
+        <label>UserName</label>
+                            <input type="text" name="username" value={username} onChange={this.updateDetails}/>
+        <label>Player 1 name</label>
         <input type='text' value={player1} name="player1" onChange={this.updatePlayer}></input>
-        <label>Player 2 name</label><input type='text' value={player2} name="player2" onChange={this.updatePlayer}></input>
-        <button onClick={this.start}>Start game</button>
-        {this.state.namesEntered ? <div>
-
+        Player 2 name<input type='text' value={player2} onChange={this.updatePlayer}></input>
+        
         <div className="status">{status}</div>
-          <div className="board-row">
-            {this.renderSquare(0)}
-            {this.renderSquare(1)}
-            {this.renderSquare(2)}
-          </div>
-          <div className="board-row">
-            {this.renderSquare(3)}
-            {this.renderSquare(4)}
-            {this.renderSquare(5)}
-          </div>
-          <div className="board-row">
-            {this.renderSquare(6)}
-            {this.renderSquare(7)}
-            {this.renderSquare(8)}
-          </div>
-          <button onClick={() => this.undoMove()}>Undo</button>
-          <button onClick={() => this.resetGame()}>ResetGame</button>
-        </div> : <div>Please enter both players names</div>
-        }
-        <ol>
-          {this.state.winnername.map((element, index)=>
-            <li key={index}>{element}</li>,
-          )}
-        </ol>
- 
-
+        <div className="board-row">
+          {this.renderSquare(0)}
+          {this.renderSquare(1)}
+          {this.renderSquare(2)}
+        </div>
+        <div className="board-row">
+          {this.renderSquare(3)}
+          {this.renderSquare(4)}
+          {this.renderSquare(5)}
+        </div>
+        <div className="board-row">
+          {this.renderSquare(6)}
+          {this.renderSquare(7)}
+          {this.renderSquare(8)}
+        </div>
+        <button onClick={() => this.resetGame()}>ResetGame</button>
       </div>
     );
   }

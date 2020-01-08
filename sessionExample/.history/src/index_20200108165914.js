@@ -109,7 +109,7 @@ start = (e) => {
     }
   }
     
-    const{player1, player2} = this.state
+    const{player1, player2} = this.state,
     return (
       <div>
        <label>Player 1 name</label>
@@ -139,9 +139,7 @@ start = (e) => {
         </div> : <div>Please enter both players names</div>
         }
         <ol>
-          {this.state.winnername.map((element, index)=>
-            <li key={index}>{element}</li>,
-          )}
+          {this.winnername}
         </ol>
  
 

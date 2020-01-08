@@ -20,8 +20,7 @@ class Board extends React.Component {
       clickCount: 0,
       player1:"",
       player2:"",
-      namesEntered:false,
-      winnername: []
+      namesEntered:false
     }
     this.state = this.initialstate
   }
@@ -30,19 +29,8 @@ class Board extends React.Component {
   }
 
   resetGame(){
-    this.setState({ 
-      squares: Array(9).fill(null),
-      isXNext: true,
-      player: "player 1",
-      clickCount: 0,
-    });
-  }
-
-  undoMove(){
-    this.setState(prevState =>{
-      return{
-      clickCount: prevState.clickCount
-    }})
+    this.setState(this.initialstate);
+    console.log(this.initialstate)
   }
 
   handleClick(i){
@@ -66,20 +54,15 @@ class Board extends React.Component {
     this.setState({
         [name]: value
     });
-  
-}
 
-start = (e) => {
-  
-  if(this.state.player1 !=='' && this.state.player2!==""){
-    this.setState({
-      namesEntered: true
-    })
-  }
+    if(this.state.player1 !=='' && this.state.player2!==""){
+      this.setState({
+        namesEntered: true
+      })
+    }
+    
 }
   
-
-
   render() {
 
     console.log("clickCount", this.state)
@@ -88,9 +71,7 @@ start = (e) => {
     console.log("namesentered", this.state.namesEntered)
     var status; 
     if(winner){
-      status = 'winner'+ this.state.player;
-      this.state.winnername.push(this.state.player)
-      console.log("winnername",this.state.winnername)
+      status = 'winner'+ this.state.player
     }
     else {
       if(this.state.clickCount >= 9){
@@ -134,16 +115,10 @@ start = (e) => {
             {this.renderSquare(7)}
             {this.renderSquare(8)}
           </div>
-          <button onClick={() => this.undoMove()}>Undo</button>
           <button onClick={() => this.resetGame()}>ResetGame</button>
-        </div> : <div>Please enter both players names</div>
+        </div> : <div></div>
         }
-        <ol>
-          {this.state.winnername.map((element, index)=>
-            <li key={index}>{element}</li>,
-          )}
-        </ol>
- 
+       
 
       </div>
     );

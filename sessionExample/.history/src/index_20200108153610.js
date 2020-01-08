@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import useUndo from "use-undo";
 
 function Square(props){
     return (
@@ -11,22 +12,21 @@ function Square(props){
   }
 
 class Board extends React.Component {
-  constructor(props){
-    super(props)
-    this.initialstate = {
-      squares: Array(9).fill(null),
-      isXNext: true,
-      player: "player 1",
-      clickCount: 0,
-      player1:"",
-      player2:"",
-      namesEntered:false,
-      winnername: []
-    }
-    this.state = this.initialstate
-  }
+  // constructor(props){
+  //   super(props)
+  //   this.initialstate = {
+  //     squares: Array(9).fill(null),
+  //     isXNext: true,
+  //     player: "player 1",
+  //     clickCount: 0,
+  //     player1:"",
+  //     player2:"",
+  //     namesEntered:false
+  //   }
+  //   this.state = this.initialstate
+  // }
   renderSquare(i) {
-    return <Square value={this.state.squares[i]} onClick={() => this.handleClick(i)}/>;
+    return <Square value={this.props.squares[i]} onClick={() => this.props.onClick(i)}/>;
   }
 
   resetGame(){
@@ -88,9 +88,7 @@ start = (e) => {
     console.log("namesentered", this.state.namesEntered)
     var status; 
     if(winner){
-      status = 'winner'+ this.state.player;
-      this.state.winnername.push(this.state.player)
-      console.log("winnername",this.state.winnername)
+      status = 'winner'+ this.state.player
     }
     else {
       if(this.state.clickCount >= 9){
@@ -138,12 +136,7 @@ start = (e) => {
           <button onClick={() => this.resetGame()}>ResetGame</button>
         </div> : <div>Please enter both players names</div>
         }
-        <ol>
-          {this.state.winnername.map((element, index)=>
-            <li key={index}>{element}</li>,
-          )}
-        </ol>
- 
+       
 
       </div>
     );
@@ -151,7 +144,15 @@ start = (e) => {
 }
 
 class Game extends React.Component {
+  constructor(props){
+    super(props)
+    this.state = {
+      history: [{squares: Array(9).fill(null)}],
+      isXNext: true,
+    }
+  }
   render() {
+    const history = this.state.history
     return (
       <div className="game">
         <div className="game-board">

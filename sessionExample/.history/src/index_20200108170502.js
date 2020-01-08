@@ -140,7 +140,7 @@ start = (e) => {
         }
         <ol>
           {this.state.winnername.map((element, index)=>
-            <li key={index}>{element}</li>,
+            <li>{element</li>,
           )}
         </ol>
  

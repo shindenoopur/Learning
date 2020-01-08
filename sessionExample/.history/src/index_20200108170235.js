@@ -137,11 +137,9 @@ start = (e) => {
           <button onClick={() => this.undoMove()}>Undo</button>
           <button onClick={() => this.resetGame()}>ResetGame</button>
         </div> : <div>Please enter both players names</div>
-        }
+        }characterData.map((row,index)
         <ol>
-          {this.state.winnername.map((element, index)=>
-            <li key={index}>{element}</li>,
-          )}
+          {this.state.winnername.map((element, index))}
         </ol>
  
 

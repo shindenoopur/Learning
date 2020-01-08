@@ -20,8 +20,7 @@ class Board extends React.Component {
       clickCount: 0,
       player1:"",
       player2:"",
-      namesEntered:false,
-      winnername: []
+      namesEntered:false
     }
     this.state = this.initialstate
   }
@@ -86,11 +85,11 @@ start = (e) => {
     const winner = calculateWinner(this.state.squares)
 
     console.log("namesentered", this.state.namesEntered)
-    var status; 
+    var status, ; 
     if(winner){
       status = 'winner'+ this.state.player;
-      this.state.winnername.push(this.state.player)
-      console.log("winnername",this.state.winnername)
+      winnername.push(this.state.player)
+      console.log("winnername",winnername)
     }
     else {
       if(this.state.clickCount >= 9){
@@ -139,10 +138,8 @@ start = (e) => {
         </div> : <div>Please enter both players names</div>
         }
         <ol>
-          {this.state.winnername.map((element, index)=>
-            <li key={index}>{element}</li>,
-          )}
-        </ol>
+      <li>{winnername}</li>
+    </ol>
  
 
       </div>

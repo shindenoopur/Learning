@@ -11,22 +11,21 @@ function Square(props){
   }
 
 class Board extends React.Component {
-  constructor(props){
-    super(props)
-    this.initialstate = {
-      squares: Array(9).fill(null),
-      isXNext: true,
-      player: "player 1",
-      clickCount: 0,
-      player1:"",
-      player2:"",
-      namesEntered:false,
-      winnername: []
-    }
-    this.state = this.initialstate
-  }
+  // constructor(props){
+  //   super(props)
+  //   this.initialstate = {
+  //     squares: Array(9).fill(null),
+  //     isXNext: true,
+  //     player: "player 1",
+  //     clickCount: 0,
+  //     player1:"",
+  //     player2:"",
+  //     namesEntered:false
+  //   }
+  //   this.state = this.initialstate
+  // }
   renderSquare(i) {
-    return <Square value={this.state.squares[i]} onClick={() => this.handleClick(i)}/>;
+    return <Square value={this.props.squares[i]} onClick={() => this.props.onClick(i)}/>;
   }
 
   resetGame(){
@@ -45,20 +44,20 @@ class Board extends React.Component {
     }})
   }
 
-  handleClick(i){
-    const squares = this.state.squares.slice();
-    if (calculateWinner(squares) || squares[i]) {
-      return;
-    }
+  // handleClick(i){
+  //   const squares = this.state.squares.slice();
+  //   if (calculateWinner(squares) || squares[i]) {
+  //     return;
+  //   }
 
-    squares[i] = this.state.isXNext? 'X' : 'O';
-    this.setState({
-      squares: squares,
-      isXNext: !this.state.isXNext,
-      clickCount : this.state.clickCount + 1
-    });
+  //   squares[i] = this.state.isXNext? 'X' : 'O';
+  //   this.setState({
+  //     squares: squares,
+  //     isXNext: !this.state.isXNext,
+  //     clickCount : this.state.clickCount + 1
+  //   });
 
-  }
+  // }
 
   updatePlayer = (event) => {
     const {name,value} = event.target;
@@ -82,32 +81,30 @@ start = (e) => {
 
   render() {
 
-    console.log("clickCount", this.state)
-    const winner = calculateWinner(this.state.squares)
+  //   console.log("clickCount", this.state)
+  //   const winner = calculateWinner(this.state.squares)
 
-    console.log("namesentered", this.state.namesEntered)
-    var status; 
-    if(winner){
-      status = 'winner'+ this.state.player;
-      this.state.winnername.push(this.state.player)
-      console.log("winnername",this.state.winnername)
-    }
-    else {
-      if(this.state.clickCount >= 9){
-      status = "The match is draw"
-    }
+  //   console.log("namesentered", this.state.namesEntered)
+  //   var status; 
+  //   if(winner){
+  //     status = 'winner'+ this.state.player
+  //   }
+  //   else {
+  //     if(this.state.clickCount >= 9){
+  //     status = "The match is draw"
+  //   }
 
 
-    else{
-      if(!this.state.isXNext){
-        this.state.player = this.state.player2
-      }
-      else{
-        this.state.player = this.state.player1
-      }
-      status = 'Next player:'+ this.state.player;
-    }
-  }
+  //   else{
+  //     if(!this.state.isXNext){
+  //       this.state.player = this.state.player2
+  //     }
+  //     else{
+  //       this.state.player = this.state.player1
+  //     }
+  //     status = 'Next player:'+ this.state.player;
+  //   }
+  // }
     
     const{player1, player2} = this.state
     return (
@@ -138,12 +135,7 @@ start = (e) => {
           <button onClick={() => this.resetGame()}>ResetGame</button>
         </div> : <div>Please enter both players names</div>
         }
-        <ol>
-          {this.state.winnername.map((element, index)=>
-            <li key={index}>{element}</li>,
-          )}
-        </ol>
- 
+       
 
       </div>
     );
@@ -151,7 +143,56 @@ start = (e) => {
 }
 
 class Game extends React.Component {
+  constructor(props){
+    super(props)
+    this.state = {
+      history: [{squares: Array(9).fill(null)}],
+      isXNext: true,
+    }
+  }
+  handleClick(i) {
+    const history = this.state.history;
+    const current = history[history.length - 1];
+    const squares = current.squares.slice();
+    if (calculateWinner(squares) || squares[i]) {
+      return;
+    }
+    squares[i] = this.state.xIsNext ? 'X' : 'O';
+    this.setState({
+      history: history.concat([{
+        squares: squares
+      }]),
+      xIsNext: !this.state.xIsNext,
+    });
+  }
   render() {
+
+    const history = this.state.history;
+    const current = history[history.length - 1];
+    console.log("clickCount", this.state)
+    const winner = calculateWinner(this.state.squares)
+
+    console.log("namesentered", this.state.namesEntered)
+    var status; 
+    if(winner){
+      status = 'winner'+ this.state.player
+    }
+    else {
+      if(this.state.clickCount >= 9){
+      status = "The match is draw"
+    }
+
+
+    else{
+      if(!this.state.isXNext){
+        this.state.player = this.state.player2
+      }
+      else{
+        this.state.player = this.state.player1
+      }
+      status = 'Next player:'+ this.state.player;
+    }
+  }
     return (
       <div className="game">
         <div className="game-board">

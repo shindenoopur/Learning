@@ -139,8 +139,8 @@ start = (e) => {
         </div> : <div>Please enter both players names</div>
         }
         <ol>
-          {this.state.winnername.map((element, index)=>
-            <li key={index}>{element}</li>,
+          {this.state.winnername.map((element)=>
+          <li>{element}</li>,
           )}
         </ol>
  
