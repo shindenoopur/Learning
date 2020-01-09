@@ -78,8 +78,7 @@ class Game extends React.Component {
       }]),
       stepNumber: history.length,
       isXNext: !this.state.isXNext,
-      clickCount : this.state.clickCount + 1,
-      undoClicks: 0
+      clickCount : this.state.clickCount + 1
     });
 
   }
@@ -174,10 +173,8 @@ class Game extends React.Component {
           <div>{status}</div>
           <Board  squares={current.squares}
             onClick={(i) => this.handleClick(i)}/>
-            {this.state.undoClicks===1 ? <div></div> : 
             <button onClick={() => {let xyz = history.length-1; console.log("Updated move", xyz, "\n history:", this.state.history); this.jumpTo(xyz-1)}}>Undo</button>
-          }
-            <button onClick={() => this.resetGame()}>ResetGame</button>
+          <button onClick={() => this.resetGame()}>ResetGame</button>
         </div> : <div>Please enter both players names</div>}
         
         <div className="game-info">

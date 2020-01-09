@@ -51,20 +51,12 @@ class Game extends React.Component {
       player2:"",
       clickCount: 0,
       namesEntered:false,
-      winnername: [],
-      stepNumber: 0,
-      undoClicks:0
+      winnername: []
     }
   }
-  jumpTo(step) {
-    this.setState({
-      stepNumber: step,
-      isXNext: (step % 2) === 0,
-      undoClicks: 1
-    });
-  }
+
   handleClick(i){
-    const history = this.state.history.slice(0, this.state.stepNumber + 1);
+    const history = this.state.history;
     const current = history[history.length - 1];
     const squares = current.squares.slice();
     if (calculateWinner(squares) || squares[i]) {
@@ -76,10 +68,8 @@ class Game extends React.Component {
       history: history.concat([{
       squares: squares,
       }]),
-      stepNumber: history.length,
       isXNext: !this.state.isXNext,
-      clickCount : this.state.clickCount + 1,
-      undoClicks: 0
+      clickCount : this.state.clickCount + 1
     });
 
   }
@@ -100,12 +90,7 @@ class Game extends React.Component {
       isXNext: true,
       player: "player 1",
       clickCount: 0,
-      stepNumber:0
     });
-  }
-
-  undoMove = (event) => {
-    
   }
 
     updatePlayer = (event) => {
@@ -119,23 +104,8 @@ class Game extends React.Component {
 
   render() {
     const history = this.state.history;
-    
-    const current = history[this.state.stepNumber];
+    const current = history[history.length - 1];
     const winner = calculateWinner(current.squares);
-    
-    // console.log("move", history.length-1)
-    let xyz = history.length-1;
-    const moves = history.map((step, xyz) => {
-
-      const desc = xyz ?
-        'Go to move #' + xyz :
-        'Go to game start';
-      return (
-        <li key={xyz}>
-          <button onClick={() => this.jumpTo(xyz)}>{desc}</button>
-        </li>
-      );
-    });
     const{player1, player2} = this.state
     console.log("Player1",player1,"pplayer 2", player2)
     let status;
@@ -160,24 +130,19 @@ class Game extends React.Component {
         }
     }
     return (
-      <div>
       <div className="game">
         <label>Player 1 name</label>
         <input type='text' value={player1} name="player1" onChange={this.updatePlayer}></input>
         <label>Player 2 name</label>
         <input type='text' value={player2} name="player2" onChange={this.updatePlayer}></input>
         <button onClick={this.start}>Start game</button>
-      </div>
-      <div>
         {this.state.namesEntered ? 
         <div className="game-board">
           <div>{status}</div>
           <Board  squares={current.squares}
             onClick={(i) => this.handleClick(i)}/>
-            {this.state.undoClicks===1 ? <div></div> : 
-            <button onClick={() => {let xyz = history.length-1; console.log("Updated move", xyz, "\n history:", this.state.history); this.jumpTo(xyz-1)}}>Undo</button>
-          }
-            <button onClick={() => this.resetGame()}>ResetGame</button>
+            <button onClick={() => this.undoMove()}>Undo</button>
+          <button onClick={() => this.resetGame()}>ResetGame</button>
         </div> : <div>Please enter both players names</div>}
         
         <div className="game-info">
@@ -189,9 +154,7 @@ class Game extends React.Component {
             
           )}
         </ol>
-          <ol>{moves}</ol>
         </div>
-      </div>
       </div>
     );
   }

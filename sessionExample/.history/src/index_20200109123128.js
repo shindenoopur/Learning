@@ -78,8 +78,7 @@ class Game extends React.Component {
       }]),
       stepNumber: history.length,
       isXNext: !this.state.isXNext,
-      clickCount : this.state.clickCount + 1,
-      undoClicks: 0
+      clickCount : this.state.clickCount + 1
     });
 
   }

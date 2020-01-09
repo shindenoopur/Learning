@@ -53,14 +53,12 @@ class Game extends React.Component {
       namesEntered:false,
       winnername: [],
       stepNumber: 0,
-      undoClicks:0
     }
   }
   jumpTo(step) {
     this.setState({
       stepNumber: step,
       isXNext: (step % 2) === 0,
-      undoClicks: 1
     });
   }
   handleClick(i){
@@ -78,8 +76,7 @@ class Game extends React.Component {
       }]),
       stepNumber: history.length,
       isXNext: !this.state.isXNext,
-      clickCount : this.state.clickCount + 1,
-      undoClicks: 0
+      clickCount : this.state.clickCount + 1
     });
 
   }
@@ -104,10 +101,6 @@ class Game extends React.Component {
     });
   }
 
-  undoMove = (event) => {
-    
-  }
-
     updatePlayer = (event) => {
     const {name,value} = event.target;
     console.log("name and value", name, "", value)
@@ -122,17 +115,13 @@ class Game extends React.Component {
     
     const current = history[this.state.stepNumber];
     const winner = calculateWinner(current.squares);
-    
-    // console.log("move", history.length-1)
-    let xyz = history.length-1;
-    const moves = history.map((step, xyz) => {
-
-      const desc = xyz ?
-        'Go to move #' + xyz :
+    const moves = history.map((step, move) => {
+      const desc = move ?
+        'Go to move #' + move :
         'Go to game start';
       return (
-        <li key={xyz}>
-          <button onClick={() => this.jumpTo(xyz)}>{desc}</button>
+        <li key={move}>
+          <button onClick={() => this.jumpTo(move)}>{desc}</button>
         </li>
       );
     });
@@ -174,10 +163,8 @@ class Game extends React.Component {
           <div>{status}</div>
           <Board  squares={current.squares}
             onClick={(i) => this.handleClick(i)}/>
-            {this.state.undoClicks===1 ? <div></div> : 
-            <button onClick={() => {let xyz = history.length-1; console.log("Updated move", xyz, "\n history:", this.state.history); this.jumpTo(xyz-1)}}>Undo</button>
-          }
-            <button onClick={() => this.resetGame()}>ResetGame</button>
+            <button onClick={() => this.undoMove()}>Undo</button>
+          <button onClick={() => this.resetGame()}>ResetGame</button>
         </div> : <div>Please enter both players names</div>}
         
         <div className="game-info">

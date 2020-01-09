@@ -53,18 +53,16 @@ class Game extends React.Component {
       namesEntered:false,
       winnername: [],
       stepNumber: 0,
-      undoClicks:0
     }
   }
   jumpTo(step) {
     this.setState({
       stepNumber: step,
-      isXNext: (step % 2) === 0,
-      undoClicks: 1
+      xIsNext: (step % 2) === 0,
     });
   }
   handleClick(i){
-    const history = this.state.history.slice(0, this.state.stepNumber + 1);
+    const history = this.state.history;
     const current = history[history.length - 1];
     const squares = current.squares.slice();
     if (calculateWinner(squares) || squares[i]) {
@@ -76,10 +74,8 @@ class Game extends React.Component {
       history: history.concat([{
       squares: squares,
       }]),
-      stepNumber: history.length,
       isXNext: !this.state.isXNext,
-      clickCount : this.state.clickCount + 1,
-      undoClicks: 0
+      clickCount : this.state.clickCount + 1
     });
 
   }
@@ -100,12 +96,7 @@ class Game extends React.Component {
       isXNext: true,
       player: "player 1",
       clickCount: 0,
-      stepNumber:0
     });
-  }
-
-  undoMove = (event) => {
-    
   }
 
     updatePlayer = (event) => {
@@ -119,20 +110,15 @@ class Game extends React.Component {
 
   render() {
     const history = this.state.history;
-    
-    const current = history[this.state.stepNumber];
+    const current = history[history.length - 1];
     const winner = calculateWinner(current.squares);
-    
-    // console.log("move", history.length-1)
-    let xyz = history.length-1;
-    const moves = history.map((step, xyz) => {
-
-      const desc = xyz ?
-        'Go to move #' + xyz :
+    const moves = history.map((step, move) => {
+      const desc = move ?
+        'Go to move #' + move :
         'Go to game start';
       return (
-        <li key={xyz}>
-          <button onClick={() => this.jumpTo(xyz)}>{desc}</button>
+        <li key={move}>
+          <button onClick={() => this.jumpTo(move)}>{desc}</button>
         </li>
       );
     });
@@ -174,10 +160,8 @@ class Game extends React.Component {
           <div>{status}</div>
           <Board  squares={current.squares}
             onClick={(i) => this.handleClick(i)}/>
-            {this.state.undoClicks===1 ? <div></div> : 
-            <button onClick={() => {let xyz = history.length-1; console.log("Updated move", xyz, "\n history:", this.state.history); this.jumpTo(xyz-1)}}>Undo</button>
-          }
-            <button onClick={() => this.resetGame()}>ResetGame</button>
+            <button onClick={() => this.undoMove()}>Undo</button>
+          <button onClick={() => this.resetGame()}>ResetGame</button>
         </div> : <div>Please enter both players names</div>}
         
         <div className="game-info">
