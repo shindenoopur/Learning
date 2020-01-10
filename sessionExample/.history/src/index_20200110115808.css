@@ -21,15 +21,15 @@ ol, ul {
   background: #fff;
   border: 1px solid #999;
   float: left;
-  font-size: 30px;
+  font-size: 24px;
   font-weight: bold;
   line-height: 34px;
-  height: 50px;
+  height: 34px;
   margin-right: -1px;
   margin-top: -1px;
   padding: 0;
   text-align: center;
-  width: 50px;
+  width: 34px;
 }
 
 .square:focus {
@@ -49,12 +49,10 @@ ol, ul {
   margin-left: 20px;
 }
 
-button.square[squaredata="X"] {
-  color: rgb(102, 11, 11);
+button.square[squareData="X"] {
+  color: red;
   }
   
-  button.square[squaredata="O"] {
-    color: rgb(70, 194, 66);
+  button.square[squareData="O"] {
+    color: green;
   }
-
-  

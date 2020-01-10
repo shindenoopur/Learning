@@ -213,7 +213,7 @@ class Game extends React.Component {
            
            </Row>
         </div> : <div><Col>Please enter both players names </Col></div>}
-        <ol><li>{localStorage.getItem("Winnerarray")}</li></ol>
+        <ol>{<li>localStorage.getItem("Winnerarray")</li>}</ol>
         <div className="game-info">
           
         <ol>

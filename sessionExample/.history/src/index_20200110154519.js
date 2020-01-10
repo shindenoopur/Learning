@@ -170,7 +170,7 @@ class Game extends React.Component {
       <div>
       <Row>
       <div className="game">
-      
+        
         <Form className="form">
           <Col>
             <FormGroup>
@@ -199,7 +199,7 @@ class Game extends React.Component {
             </Row>
             <Row> 
             <Col md="6"><br />
-        
+              <div>{demowinner}</div>
               <Board squares={current.squares} onClick={(i) => this.handleClick(i)}/> 
             </Col>
             <Col md="3"><br />
@@ -213,7 +213,7 @@ class Game extends React.Component {
            
            </Row>
         </div> : <div><Col>Please enter both players names </Col></div>}
-        <ol><li>{localStorage.getItem("Winnerarray")}</li></ol>
+        
         <div className="game-info">
           
         <ol>

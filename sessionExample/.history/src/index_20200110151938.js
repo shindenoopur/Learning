@@ -148,7 +148,7 @@ class Game extends React.Component {
       status = 'winner'+ this.state.player;
       this.state.winnername.push(this.state.player)
       console.log("winnername",this.state.winnername)
-      localStorage.setItem("Winnerarray", this.state.winnername)
+      localStorage.setItem("Winnerarray", "winnerarray"+this.state.winnername)
     } else {
       if(this.state.clickCount >= 9){
           this.state.undoClicks = 1
@@ -170,7 +170,7 @@ class Game extends React.Component {
       <div>
       <Row>
       <div className="game">
-      
+        
         <Form className="form">
           <Col>
             <FormGroup>
@@ -199,7 +199,6 @@ class Game extends React.Component {
             </Row>
             <Row> 
             <Col md="6"><br />
-        
               <Board squares={current.squares} onClick={(i) => this.handleClick(i)}/> 
             </Col>
             <Col md="3"><br />
@@ -213,7 +212,7 @@ class Game extends React.Component {
            
            </Row>
         </div> : <div><Col>Please enter both players names </Col></div>}
-        <ol><li>{localStorage.getItem("Winnerarray")}</li></ol>
+        
         <div className="game-info">
           
         <ol>

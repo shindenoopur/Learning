@@ -5,12 +5,11 @@ import {
   Container, Col, Form,
   FormGroup, Label, Input,
   Button,
-  Row,
 } from 'reactstrap';
 
 function Square(props){
     return (
-      <button className="square" squaredata={props.value} onClick={props.onClick}>
+      <button className="square" onClick={props.onClick}>
         {props.value}
       </button>
     );
@@ -139,8 +138,6 @@ class Game extends React.Component {
       //   </li>
       // );
     // });
-    let demowinner = localStorage.getItem("Winnerarray")
-    console.log("demoWinner", demowinner)
     const{player1, player2} = this.state
     console.log("clickCount is", this.state.clickCount, "undoClicks", this.state.undoClicks)
     let status;
@@ -148,7 +145,6 @@ class Game extends React.Component {
       status = 'winner'+ this.state.player;
       this.state.winnername.push(this.state.player)
       console.log("winnername",this.state.winnername)
-      localStorage.setItem("Winnerarray", this.state.winnername)
     } else {
       if(this.state.clickCount >= 9){
           this.state.undoClicks = 1
@@ -168,9 +164,8 @@ class Game extends React.Component {
     }
     return (
       <div>
-      <Row>
       <div className="game">
-      
+        
         <Form className="form">
           <Col>
             <FormGroup>
@@ -192,28 +187,14 @@ class Game extends React.Component {
       <div>
         {this.state.namesEntered ? 
         <div className="game-board">
-          <Row>
-            <Col md="12">
-            {status} 
-            </Col>
-            </Row>
-            <Row> 
-            <Col md="6"><br />
-        
-              <Board squares={current.squares} onClick={(i) => this.handleClick(i)}/> 
-            </Col>
-            <Col md="3"><br />
-          <Button color="primary" disabled={this.state.undoClicks===1 || this.state.undoClicks==="disableBtn" || winner} onClick={() => {let xyz = history.length-1; console.log("Updated move", xyz, "\n history:", this.state.history); this.jumpTo(xyz-1)}}>Undo</Button>
-          </Col>
-          <Col md="3"><br />
-          <Button color="primary" onClick={() => this.resetGame()}>Reset</Button>
-          </Col>
-          </Row><br />
-          <Row>
-           
-           </Row>
+          <div>{status}</div>
+          <Board  squares={current.squares}
+            onClick={(i) => this.handleClick(i)}/>
+            <button disabled={this.state.undoClicks===1 || this.state.undoClicks==="disableBtn" || winner} onClick={() => {let xyz = history.length-1; console.log("Updated move", xyz, "\n history:", this.state.history); this.jumpTo(xyz-1)}}>Undo</button>
+          
+            <Button color="primary" onClick={() => this.resetGame()}>ResetGame</Button>
         </div> : <div><Col>Please enter both players names </Col></div>}
-        <ol><li>{localStorage.getItem("Winnerarray")}</li></ol>
+        
         <div className="game-info">
           
         <ol>
@@ -227,7 +208,6 @@ class Game extends React.Component {
 
         </div>
       </div>
-      </Row>
       </div>
     );
   }
