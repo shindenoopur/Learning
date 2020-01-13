@@ -262,7 +262,7 @@ class Game extends React.Component {
            <Router>
           <Link to="winnerlist">List</Link>
           
-            
+    
   
           </Router>
           {/* <ol>{moves}</ol> */}|
@@ -295,13 +295,7 @@ function calculateWinner(squares) {
 }
 
 ReactDOM.render(
-  <Router>
-    <Route path="/"><Game /></Route>
-    <Route path="/winnerlist">
-      <Democomponent />
-    </Route>
-  </Router>,
-  
+  <Game />,
  
 document.getElementById('root')
 );

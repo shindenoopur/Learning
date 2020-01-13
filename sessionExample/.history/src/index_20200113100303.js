@@ -1,21 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import Democomponent from './democomponent'
 import {
   Container, Col, Form,
   FormGroup, Label, Input,
   Button,
   Row,
-  Alert
+  Alert,
 } from 'reactstrap';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  NavLink,
-  Link
-} from "react-router-dom";
 
 function Square(props){
     return (
@@ -68,7 +60,7 @@ class Game extends React.Component {
       namesEntered:false,
       winnername: [],
       stepNumber: 0,
-      undoClicks: 0
+      undoClicks: "disableBtn"
     }
   }
   jumpTo(step) {
@@ -133,22 +125,11 @@ class Game extends React.Component {
 }
 
   render() {
-
     const history = this.state.history;
     
     const current = history[this.state.stepNumber];
     const winner = calculateWinner(current.squares);
-    var winnersprev;
-    <Router>
-      <Switch>
-     <Route path='/winnerlist'>
-        <Democomponent />
-      </Route>
-
-          
-        
-    </Switch>
-    </Router>
+    
     // console.log("move", history.length-1)
     // const moves = history.map((step, xyz) => {
 
@@ -161,8 +142,8 @@ class Game extends React.Component {
       //   </li>
       // );
     // });
-    
-    
+    let demowinner = localStorage.getItem("Winnerarray")
+    console.log("demoWinner", demowinner)
     const{player1, player2} = this.state
     console.log("clickCount is", this.state.clickCount, "undoClicks", this.state.undoClicks)
     let status;
@@ -173,7 +154,7 @@ class Game extends React.Component {
       localStorage.setItem("Winnerarray", this.state.winnername)
     } else {
       if(this.state.clickCount >= 9){
-         this.state.undoClicks =1
+          // this.state.undoClicks = 1
           this.state.winnername.push("Draw")
           status = "\t The match is draw"
         }   
@@ -187,16 +168,6 @@ class Game extends React.Component {
           }
           status = 'Next player: \t' + this.state.player;
         }
-    }
-
-    if(localStorage.getItem("Winnerarray") !== null){
-      let demowinner = localStorage.getItem("Winnerarray").split(",")
-
-    console.log("Demowinner", demowinner)
-    winnersprev = demowinner.map((item, index) =>
-      <li key={index}>{item}</li>
-    )
-    
     }
     return (
       <div>
@@ -236,7 +207,7 @@ class Game extends React.Component {
               <Board squares={current.squares} onClick={(i) => this.handleClick(i)}/> 
             </Col>
             <Col md="3"><br />
-          <Button color="primary" disabled={this.state.undoClicks===1 || winner || this.state.clickCount===0} onClick={() => {let xyz = history.length-1; console.log("Updated move", xyz, "\n history:", this.state.history); this.jumpTo(xyz-1)}}>Undo</Button>
+          <Button color="primary" disabled={this.state.undoClicks===1 || this.state.undoClicks=="disableBtn" || winner || this.clickCount===0} onClick={() => {let xyz = history.length-1; console.log("Updated move", xyz, "\n history:", this.state.history); this.jumpTo(xyz-1)}}>Undo</Button>
           </Col>
           <Col md="3"><br />
           <Button color="primary" disabled={this.state.clickCount===0} onClick={() => this.resetGame()}>Reset</Button>
@@ -245,9 +216,9 @@ class Game extends React.Component {
           <Row>
            
            </Row>
-        </div> : <div style={{ display: localStorage.getItem("Winnerarray") ? "block" : "none" }}>
-        <Col md="12"><strong>Previous winners are:<ol>{winnersprev}</ol>
-        </strong></Col><br />
+        </div> : <div>
+        <Col md="12"><strong>Previous winners are:{localStorage.getItem("Winnerarray")}</strong></Col><br />
+        {/* <Col md="12">Please enter both players names </Col> */}
         </div>}
         
         <div className="game-info">
@@ -259,13 +230,8 @@ class Game extends React.Component {
             
           )}
         </ol>
-           <Router>
-          <Link to="winnerlist">List</Link>
-          
-            
-  
-          </Router>
-          {/* <ol>{moves}</ol> */}|
+          {/* <ol>{moves}</ol> */}
+
         </div>
       </div>
       </Row>
@@ -273,6 +239,7 @@ class Game extends React.Component {
     );
   }
 }
+
 
 function calculateWinner(squares) {
   const lines = [
@@ -295,13 +262,6 @@ function calculateWinner(squares) {
 }
 
 ReactDOM.render(
-  <Router>
-    <Route path="/"><Game /></Route>
-    <Route path="/winnerlist">
-      <Democomponent />
-    </Route>
-  </Router>,
-  
- 
-document.getElementById('root')
+  <Game />,
+  document.getElementById('root')
 );

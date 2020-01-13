@@ -1,21 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import './index.css';
-import Democomponent from './democomponent'
 import {
   Container, Col, Form,
   FormGroup, Label, Input,
   Button,
   Row,
-  Alert
+  Alert,
 } from 'reactstrap';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  NavLink,
-  Link
-} from "react-router-dom";
 
 function Square(props){
     return (
@@ -133,22 +126,11 @@ class Game extends React.Component {
 }
 
   render() {
-
     const history = this.state.history;
     
     const current = history[this.state.stepNumber];
     const winner = calculateWinner(current.squares);
     var winnersprev;
-    <Router>
-      <Switch>
-     <Route path='/winnerlist'>
-        <Democomponent />
-      </Route>
-
-          
-        
-    </Switch>
-    </Router>
     // console.log("move", history.length-1)
     // const moves = history.map((step, xyz) => {
 
@@ -201,79 +183,140 @@ class Game extends React.Component {
     return (
       <div>
       <Row>
-      <div className="game">
-      
-        <Form className="form">
-          <Col>
-            <FormGroup>
-              <label>Player 1 name:</label>
-              <input disabled={this.state.namesEntered} type='text' value={player1} name="player1" onChange={this.updatePlayer}></input>
-            </FormGroup>
-          </Col>
-          <Col>
-            <FormGroup>
-              <label>Player 2 name:</label>
-              <input type='text' disabled={this.state.namesEntered} value={player2} name="player2" onChange={this.updatePlayer}></input>
-            </FormGroup>
-            <FormGroup>
-              <Button disabled={this.state.namesEntered} color="primary" onClick={this.start}>Start game</Button>
-            </FormGroup>
-            <Alert color="info" hidden={this.state.namesEntered}>Please enter the names for both players</Alert>
-          </Col>
-        </Form>
-      </div>
-      <div>
-        {this.state.namesEntered ? 
-        <div className="game-board">
-          <Row>
-            <Col md="12">
-            {status} 
+        <Link to="/list"><button>Back Home</button></Link>
+        <div className="game">
+
+          <Form className="form">
+            <Col>
+              <FormGroup>
+                <label>Player 1 name:</label>
+                <input disabled={this.state.namesEntered} type='text' value={player1} name="player1" onChange={this.updatePlayer}></input>
+              </FormGroup>
             </Col>
-            </Row>
-            <Row> 
-            <Col md="6"><br />
-        
-              <Board squares={current.squares} onClick={(i) => this.handleClick(i)}/> 
+            <Col>
+              <FormGroup>
+                <label>Player 2 name:</label>
+                <input type='text' disabled={this.state.namesEntered} value={player2} name="player2" onChange={this.updatePlayer}></input>
+              </FormGroup>
+              <FormGroup>
+                <Button disabled={this.state.namesEntered} color="primary" onClick={this.start}>Start game</Button>
+              </FormGroup>
+              <Alert color="info" hidden={this.state.namesEntered}>Please enter the names for both players</Alert>
+            </Col>
+          </Form>
+        </div>
+        {/* <div>
+          {this.state.namesEntered ? 
+          <div className="game-board">
+            <Row>
+              <Col md="12">
+              {status} 
+              </Col>
+              </Row>
+              <Row> 
+              <Col md="6"><br />
+          
+                <Board squares={current.squares} onClick={(i) => this.handleClick(i)}/> 
+              </Col>
+              <Col md="3"><br />
+            <Button color="primary" disabled={this.state.undoClicks===1 || winner || this.state.clickCount===0} onClick={() => {let xyz = history.length-1; console.log("Updated move", xyz, "\n history:", this.state.history); this.jumpTo(xyz-1)}}>Undo</Button>
             </Col>
             <Col md="3"><br />
-          <Button color="primary" disabled={this.state.undoClicks===1 || winner || this.state.clickCount===0} onClick={() => {let xyz = history.length-1; console.log("Updated move", xyz, "\n history:", this.state.history); this.jumpTo(xyz-1)}}>Undo</Button>
-          </Col>
-          <Col md="3"><br />
-          <Button color="primary" disabled={this.state.clickCount===0} onClick={() => this.resetGame()}>Reset</Button>
-          </Col>
-          </Row><br />
-          <Row>
-           
-           </Row>
-        </div> : <div style={{ display: localStorage.getItem("Winnerarray") ? "block" : "none" }}>
-        <Col md="12"><strong>Previous winners are:<ol>{winnersprev}</ol>
-        </strong></Col><br />
-        </div>}
-        
-        <div className="game-info">
-          
-        <ol>
-          {this.state.winnername.map((element, index)=>
-          
-              <li key={index}>{element}</li>
+            <Button color="primary" disabled={this.state.clickCount===0} onClick={() => this.resetGame()}>Reset</Button>
+            </Col>
+            </Row><br />
+            <Row>
             
-          )}
-        </ol>
-           <Router>
-          <Link to="winnerlist">List</Link>
+            </Row>
+          </div> : <div style={{ display: localStorage.getItem("Winnerarray") ? "block" : "none" }}>
+          <Col md="12"><strong>Previous winners are:<ol>{winnersprev}</ol>
+          </strong></Col><br />
+          </div>}
           
+          <div className="game-info">
             
-  
-          </Router>
-          {/* <ol>{moves}</ol> */}|
-        </div>
-      </div>
+          <ol>
+            {this.state.winnername.map((element, index)=>
+            
+                <li key={index}>{element}</li>
+              
+            )}
+          </ol>
+            {/* <ol>{moves}</ol> */}
+{/*
+          </div>
+        </div> */}
       </Row>
       </div>
     );
   }
 }
 
+class demoComponent extends React.Component{
+  constructor(props){
+    super(props);
+    this.state = {
+      history: [{
+        squares: Array(9).fill(null),
+      }],
+      isXNext: true,
+      player1:"",
+      player2:"",
+      clickCount: 0,
+      namesEntered:false,
+      winnername: [],
+      stepNumber: 0,
+      undoClicks: 0
+    }
+  }
+  render(){
+  const history = this.state.history;
+  const current = history[this.state.stepNumber];
+  const winner = calculateWinner(current.squares);
+  var winnersprev;
+  return(
+    <div>
+          <div className="game-board">
+            <Row>
+              <Col md="12">
+              {status} 
+              </Col>
+              </Row>
+              <Row> 
+              <Col md="6"><br />
+          
+                <Board squares={current.squares} onClick={(i) => this.handleClick(i)}/> 
+              </Col>
+              <Col md="3"><br />
+            <Button color="primary" disabled={this.state.undoClicks===1 || winner || this.state.clickCount===0} onClick={() => {let xyz = history.length-1; console.log("Updated move", xyz, "\n history:", this.state.history); this.jumpTo(xyz-1)}}>Undo</Button>
+            </Col>
+            <Col md="3"><br />
+            <Button color="primary" disabled={this.state.clickCount===0} onClick={() => this.resetGame()}>Reset</Button>
+            </Col>
+            </Row><br />
+            <Row>
+            
+            </Row>
+          </div><div style={{ display: localStorage.getItem("Winnerarray") ? "block" : "none" }}>
+          <Col md="12"><strong>Previous winners are:<ol>{winnersprev}</ol>
+          </strong></Col><br />
+          </div>
+          
+          <div className="game-info">
+            
+          <ol>
+            {this.state.winnername.map((element, index)=>
+            
+                <li key={index}>{element}</li>
+              
+            )}
+          </ol>
+            {/* <ol>{moves}</ol> */}
+
+          </div>
+        </div>)
+}
+}
 function calculateWinner(squares) {
   const lines = [
     [0, 1, 2],
@@ -294,14 +337,14 @@ function calculateWinner(squares) {
   return null;
 }
 
+
 ReactDOM.render(
   <Router>
-    <Route path="/"><Game /></Route>
-    <Route path="/winnerlist">
-      <Democomponent />
-    </Route>
+      <div>
+        <Route exact path="/" component={Game} />
+        <Route path="/list" component={demoComponent} />
+      </div>
   </Router>,
-  
  
-document.getElementById('root')
+  document.getElementById('root')
 );

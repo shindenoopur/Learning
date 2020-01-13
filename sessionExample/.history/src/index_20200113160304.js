@@ -296,9 +296,9 @@ function calculateWinner(squares) {
 
 ReactDOM.render(
   <Router>
-    <Route path="/"><Game /></Route>
+    <Route><Game /></Route>
     <Route path="/winnerlist">
-      <Democomponent />
+      <Demowinner />
     </Route>
   </Router>,
   

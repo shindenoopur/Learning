@@ -1,20 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import Democomponent from './democomponent'
 import {
   Container, Col, Form,
   FormGroup, Label, Input,
   Button,
   Row,
-  Alert
+  Alert,
+  Link
 } from 'reactstrap';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  NavLink,
-  Link
+  NavLink
 } from "react-router-dom";
 
 function Square(props){
@@ -133,22 +132,11 @@ class Game extends React.Component {
 }
 
   render() {
-
     const history = this.state.history;
     
     const current = history[this.state.stepNumber];
     const winner = calculateWinner(current.squares);
     var winnersprev;
-    <Router>
-      <Switch>
-     <Route path='/winnerlist'>
-        <Democomponent />
-      </Route>
-
-          
-        
-    </Switch>
-    </Router>
     // console.log("move", history.length-1)
     // const moves = history.map((step, xyz) => {
 
@@ -201,6 +189,7 @@ class Game extends React.Component {
     return (
       <div>
       <Row>
+      <Link to="./winnerlist">List</Link>
       <div className="game">
       
         <Form className="form">
@@ -259,19 +248,23 @@ class Game extends React.Component {
             
           )}
         </ol>
-           <Router>
-          <Link to="winnerlist">List</Link>
-          
-            
-  
-          </Router>
-          {/* <ol>{moves}</ol> */}|
+          {/* <ol>{moves}</ol> */}
+
         </div>
       </div>
       </Row>
       </div>
     );
   }
+}
+
+class Democomponent extends React.Component{
+  render(){
+    return(
+      <div>Hello</div>
+    )
+  }
+ 
 }
 
 function calculateWinner(squares) {
@@ -296,12 +289,9 @@ function calculateWinner(squares) {
 
 ReactDOM.render(
   <Router>
-    <Route path="/"><Game /></Route>
-    <Route path="/winnerlist">
-      <Democomponent />
-    </Route>
+    <Route exact path="/"><Game /></Route>
+    <Route path="winnerlist"><Democomponent /></Route>
   </Router>,
-  
- 
-document.getElementById('root')
+
+  document.getElementById('root')
 );

@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import Democomponent from './democomponent'
+import democomponent from '../democomponent'
 import {
   Container, Col, Form,
   FormGroup, Label, Input,
@@ -133,22 +133,11 @@ class Game extends React.Component {
 }
 
   render() {
-
     const history = this.state.history;
     
     const current = history[this.state.stepNumber];
     const winner = calculateWinner(current.squares);
     var winnersprev;
-    <Router>
-      <Switch>
-     <Route path='/winnerlist'>
-        <Democomponent />
-      </Route>
-
-          
-        
-    </Switch>
-    </Router>
     // console.log("move", history.length-1)
     // const moves = history.map((step, xyz) => {
 
@@ -259,19 +248,32 @@ class Game extends React.Component {
             
           )}
         </ol>
-           <Router>
-          <Link to="winnerlist">List</Link>
-          
-            
-  
-          </Router>
-          {/* <ol>{moves}</ol> */}|
+
+      <Link to="./winnerlist">List</Link>
+          {/* <ol>{moves}</ol> */}
+
         </div>
       </div>
       </Row>
       </div>
     );
   }
+}
+
+class Democomponent extends React.Component{
+  constructor(props){
+    super(props)
+
+  }
+
+  
+  render(){
+    return(
+      console.log("props:", this.props),
+      <div>Hellosdsd</div>
+    )
+  }
+ 
 }
 
 function calculateWinner(squares) {
@@ -296,12 +298,9 @@ function calculateWinner(squares) {
 
 ReactDOM.render(
   <Router>
-    <Route path="/"><Game /></Route>
-    <Route path="/winnerlist">
-      <Democomponent />
-    </Route>
+    <Route exact path="/"><Game /></Route>
+    <Route path="/winnerlist"><Democomponent parent={this.state.player1}/></Route>
   </Router>,
-  
- 
-document.getElementById('root')
+
+  document.getElementById('root')
 );

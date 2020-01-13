@@ -133,22 +133,11 @@ class Game extends React.Component {
 }
 
   render() {
-
     const history = this.state.history;
     
     const current = history[this.state.stepNumber];
     const winner = calculateWinner(current.squares);
     var winnersprev;
-    <Router>
-      <Switch>
-     <Route path='/winnerlist'>
-        <Democomponent />
-      </Route>
-
-          
-        
-    </Switch>
-    </Router>
     // console.log("move", history.length-1)
     // const moves = history.map((step, xyz) => {
 
@@ -259,13 +248,22 @@ class Game extends React.Component {
             
           )}
         </ol>
-           <Router>
-          <Link to="winnerlist">List</Link>
+            <Router>
+          <Link to="./winnerlist">List</Link>
+          <Switch>
+          <Route path="/about">
+            <Form handleupdate={this.handleupdate} handlesubmit={this.handlesubmit} editing={this.state.editing} changedValue={this.state.changedValue}/>
+          </Route>
+          <Route path='/viewusers/'>
           
-            
-  
-          </Router>
-          {/* <ol>{moves}</ol> */}|
+            <Table userLogin={uname} characterSet={characters} removeData={this.removedata} editing={this.state.editing} editData={this.editdata} /> 
+          </Route>
+
+          
+         
+        </Switch>
+          {/* <ol>{moves}</ol> */}
+            </Router>
         </div>
       </div>
       </Row>
@@ -295,13 +293,6 @@ function calculateWinner(squares) {
 }
 
 ReactDOM.render(
-  <Router>
-    <Route path="/"><Game /></Route>
-    <Route path="/winnerlist">
-      <Democomponent />
-    </Route>
-  </Router>,
-  
- 
+  <Game />,
 document.getElementById('root')
 );

@@ -133,22 +133,11 @@ class Game extends React.Component {
 }
 
   render() {
-
     const history = this.state.history;
     
     const current = history[this.state.stepNumber];
     const winner = calculateWinner(current.squares);
     var winnersprev;
-    <Router>
-      <Switch>
-     <Route path='/winnerlist'>
-        <Democomponent />
-      </Route>
-
-          
-        
-    </Switch>
-    </Router>
     // console.log("move", history.length-1)
     // const moves = history.map((step, xyz) => {
 
@@ -259,13 +248,11 @@ class Game extends React.Component {
             
           )}
         </ol>
-           <Router>
+            <Router>
           <Link to="winnerlist">List</Link>
           
-            
-  
-          </Router>
-          {/* <ol>{moves}</ol> */}|
+          {/* <ol>{moves}</ol> */}
+            </Router>
         </div>
       </div>
       </Row>
@@ -296,12 +283,18 @@ function calculateWinner(squares) {
 
 ReactDOM.render(
   <Router>
-    <Route path="/"><Game /></Route>
-    <Route path="/winnerlist">
-      <Democomponent />
-    </Route>
+    <Switch>
+      
+      <Route exact path="/" component={Game}>
+      </Route>
+      
+      <Route path='/winnerlist' component={Democomponent}>
+      </Route>
+
+          
+        
+    </Switch>
   </Router>,
-  
  
 document.getElementById('root')
 );
